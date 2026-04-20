@@ -1,4 +1,4 @@
-EE2026 Digital Design
+#EE2026 Digital Design
 
 This is a final project for a digital design course taken in NUS. The main project theme is to create a Arithmetic calculator with basic addition, subtraction functions. There is also an option to go for open ended projects. Our team went for the middle ground. We wanted to creates something that stands out from a normal arithmetic calculator, but still want to keep the technical difficulty in designing a precise computing tool that has high functionality for students, while being able to exploit FPGA parallelism to create something special and unique. Thus we decided to create a graphing module, something similar to Desmos. There were many reasons as to why this would make a good project. First of all, there are mutliple techinical challenge that are not impossible to overcome, but useful for us to learn the important constructs and concepts in FPGA, and its use cases. For our calculator, we needed to decide on the fixed point math accuracy of our system. Because we have limited resources, we needed to manage what kind of width to we want for our results and intermediate values. This comes down to the user specifications. For our calculator, we decided that we do not need extremely high accuracy, as our tool is mainly for visual purposes, for the user to be able to see the shape intuitively, and to get a result that is accurate to certain decimal points is good enough, when we check the result with a calculator.
 
@@ -55,10 +55,10 @@ Function Selection Design: Designed with both clarity and aesthetics in mind. A 
 
 
 Interactive Graphing Engine & Real-Time Coordinate Mapping System:
-Interactive Tracing: Employs an FSM to toggle DRAG and TRACING modes. Tracing creates a static "snapshot" with the cursor constrained to the curve; a Dual-Module Path provides real-time, high-accuracy mathematical X/Y values to display modules.
-Coordinate Mapping: Translates Pixel, World, BRAM, and Cursor coordinates for precise mouse tracking. Uses dynamic BRAM indexing to maintain mathematical alignment during viewport shifting.
-Data Scaling: Normalizes -191 to 191 unit steps into function-specific domains (Trigo: 0.26 rad, Quad: 1, Exp: 0.01) using unified 48-bit BRAM for diverse Q-format storage.
-Dynamic Viewport: Supports mouse-driven panning, dragging, and multi-axis scaling, including a quadratic Zoom-fit.
+* Interactive Tracing: Employs an FSM to toggle DRAG and TRACING modes. Tracing creates a static "snapshot" with the cursor constrained to the curve; a Dual-Module Path provides real-time, high-accuracy mathematical X/Y values to display modules.
+* Coordinate Mapping: Translates Pixel, World, BRAM, and Cursor coordinates for precise mouse tracking. Uses dynamic BRAM indexing to maintain mathematical alignment during viewport shifting.
+* Data Scaling: Normalizes -191 to 191 unit steps into function-specific domains (Trigo: 0.26 rad, Quad: 1, Exp: 0.01) using unified 48-bit BRAM for diverse Q-format storage.
+* Dynamic Viewport: Supports mouse-driven panning, dragging, and multi-axis scaling, including a quadratic Zoom-fit.
 High-Fidelity Rendering: Implements span filling and shift registers to synchronize visual output with hardware latency.
 
 
