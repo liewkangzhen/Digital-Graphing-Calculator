@@ -1,64 +1,241 @@
-#EE2026 Digital Design
+# EE2026 Digital Design – FPGA Graphing Calculator
 
-This is a final project for a digital design course taken in NUS. The main project theme is to create a Arithmetic calculator with basic addition, subtraction functions. There is also an option to go for open ended projects. Our team went for the middle ground. We wanted to creates something that stands out from a normal arithmetic calculator, but still want to keep the technical difficulty in designing a precise computing tool that has high functionality for students, while being able to exploit FPGA parallelism to create something special and unique. Thus we decided to create a graphing module, something similar to Desmos. There were many reasons as to why this would make a good project. First of all, there are mutliple techinical challenge that are not impossible to overcome, but useful for us to learn the important constructs and concepts in FPGA, and its use cases. For our calculator, we needed to decide on the fixed point math accuracy of our system. Because we have limited resources, we needed to manage what kind of width to we want for our results and intermediate values. This comes down to the user specifications. For our calculator, we decided that we do not need extremely high accuracy, as our tool is mainly for visual purposes, for the user to be able to see the shape intuitively, and to get a result that is accurate to certain decimal points is good enough, when we check the result with a calculator.
+This project was completed as part of the **EE2026 Digital Design module at NUS**.
 
-This was a team project, with a group of 4 members.
-Credits to my teammates:
-Chia Jia En
-Ding Dao En
-Nicholas Lee
-Liew Kang Zhen (Me)
+The base requirement was to design an arithmetic calculator supporting basic operations such as addition and subtraction. However, students were also given the option to pursue open-ended designs.
 
-The HDL language used in this project is Verilog. The platform used was teh Xilinx Basys 3 FPGA board.
+Our team chose a middle ground approach:  
+we wanted to build something more advanced than a basic calculator, while still staying grounded in core digital design principles and FPGA constraints.
 
-As this was quite a difficult project, considering that we had only around 3-4 weeks to complete along with our other academic commitments during the peak of our academic period, the initial planning phase was extremely important, as it sets the tone for a good project timeline. 
+We decided to implement a **graphing calculator module**, inspired by tools such as Desmos, to explore how mathematical computation and real-time visualization can be realised on hardware.
 
-Here is an overview of the key features and innovations of our Graphing Module:
+---
 
-The graphing calculator supports three function types: polynomial, trigonometric, and exponential. To enhance user experience, it includes several user-oriented features. Visually, zoom fit is enabled by default, while users can pan and trace the graph using the mouse and scale both axes via push buttons. In addition, the calculator provides a dedicated display for function input and real-time x- and y-values, enabling clearer and more interactive graph analysis. 
+## Motivation
 
-CORDIC Trigonometric Computation
-Coefficient & Real Time Cursor Output display
-Trigonometric Computation:
-Shift-add CORDIC iteration: Removes need for multipliers, improving efficiency
-16-stage pipeline: Enables stable, high-throughput computation
-Precomputed LUT: Reduces runtime complexity
-Scaling factor compensation: Maintains output accuracy after iterative rotations
+The project was designed to:
+- Explore non-trivial FPGA system design beyond arithmetic operations
+- Understand trade-offs in **fixed-point precision vs hardware resource usage**
+- Leverage **parallelism in FPGA architectures**
+- Build an interactive system combining computation, memory, and display
 
-Coefficient and Output Display:
-Adaptive fixed-point formatting: Switches between integer and fractional display
-Sign-magnitude normalization: Ensures correct handling of negative values
-Leading-zero suppression: Improves readability and reduces clutter
-Real-time cursor tracking update: Dynamically updates x and y coordinates during graph tracing
-Dynamic equation rendering: Displays corresponding mathematical expressions across multiple curve modes, improving interpretability and user interaction
+A key design decision was choosing the **fixed-point representation**.  
+Due to limited FPGA resources, we had to carefully balance:
+- Bit-width of intermediate computations
+- Output precision
+- Visual accuracy vs hardware cost
 
-Polynomial Computation, Keypad User Interface:
+Since the tool is primarily visual, we prioritised **intuitive correctness over numerical perfection**, ensuring plotted curves remain accurate to a reasonable decimal precision.
 
-Polynomial Computation:
-Implemented linear and quadratic function computation using signed fixed-point arithmetic.
+---
 
-Keypad User Interface: 
-Implemented an OLED-based keypad UI for coefficient input and function control.
-Supports up to 6-digit number entry with signed input using a +/- toggle.
-An FSM-based editing system enables cursor movement, digit insertion, and deletion at selected positions for flexible input control.
-Prevents invalid inputs by enforcing range constraints for each function mode.
-Another FSM to enter coefficients sequentially for different functions.
-Provides clear visual feedback through highlighted key selection and blinking cursor.
-Users can confirm inputs, trigger graph plotting, and return to the menu, making the interface both robust and user-friendly.
+## Team
 
-Exponential LUT Computation, MEM File Generation & Function Selection Top Module Design:
+This was a 4-member team project:
 
-Exponential LUT Computation: Direct implementation of exponential computation in HDL incurs significant area and timing overhead. Hence, exponential values are precomputed using Python and stored in a configurable LUT, where the table depth can be tuned according to the required precision.
-MEM File Generation: The precomputed LUT is exported as a .mem file and loaded into registers during operation. This approach minimizes runtime computation, reduces design overhead, and improves timing slack, thereby supporting more responsive real-time graph rendering. 
+- Chia Jia En  
+- Ding Dao En  
+- Nicholas Lee  
+- Liew Kang Zhen (Me)
 
-Function Selection Design: Designed with both clarity and aesthetics in mind. A red highlight box is used to indicate the active selection, improving usability and making function toggling more visually distinct. 
+---
 
+## Implementation Platform
 
-Interactive Graphing Engine & Real-Time Coordinate Mapping System:
-* Interactive Tracing: Employs an FSM to toggle DRAG and TRACING modes. Tracing creates a static "snapshot" with the cursor constrained to the curve; a Dual-Module Path provides real-time, high-accuracy mathematical X/Y values to display modules.
-* Coordinate Mapping: Translates Pixel, World, BRAM, and Cursor coordinates for precise mouse tracking. Uses dynamic BRAM indexing to maintain mathematical alignment during viewport shifting.
-* Data Scaling: Normalizes -191 to 191 unit steps into function-specific domains (Trigo: 0.26 rad, Quad: 1, Exp: 0.01) using unified 48-bit BRAM for diverse Q-format storage.
-* Dynamic Viewport: Supports mouse-driven panning, dragging, and multi-axis scaling, including a quadratic Zoom-fit.
-High-Fidelity Rendering: Implements span filling and shift registers to synchronize visual output with hardware latency.
+- **HDL Language:** Verilog  
+- **FPGA Board:** Xilinx Basys 3  
 
+---
 
+## Project Constraints
+
+This project was completed within approximately **3–4 weeks**, alongside other academic commitments during a peak semester period.
+
+As a result, **system-level planning and module integration strategy** were critical to ensure successful completion.
+
+---
+
+## System Overview
+
+The graphing calculator supports three main function types:
+
+- Polynomial
+- Trigonometric
+- Exponential
+
+---
+
+## User Features
+
+### Interactive Graphing Interface
+- Default **zoom-fit view**
+- Mouse-based **panning and dragging**
+- Real-time **curve tracing**
+- Axis scaling via push buttons
+- Live display of **(x, y) coordinates**
+
+### Input System
+- OLED-based keypad interface
+- Function selection and coefficient entry
+- FSM-based editing system with:
+  - Cursor movement
+  - Digit insertion and deletion
+  - Signed input support (+/- toggle)
+- Input validation per function type
+
+---
+
+## Core Modules & Technical Design
+
+### CORDIC Trigonometric Computation
+- Shift-add based CORDIC algorithm (no multipliers)
+- 16-stage pipeline for stable throughput
+- Precomputed LUT support for efficiency
+- Scaling factor compensation for accuracy
+
+---
+
+### Fixed-Point & Output Representation
+- Adaptive fixed-point formatting (integer + fractional display)
+- Sign-magnitude normalization for negative values
+- Leading-zero suppression for readability
+- Real-time coordinate updates during tracing
+- Dynamic equation display across function modes
+
+---
+
+### Polynomial Computation
+- Linear and quadratic function support
+- Signed fixed-point arithmetic implementation
+
+---
+
+### Keypad & UI FSM Design
+- OLED-based keypad interface
+- FSM-driven input handling system
+- Robust coefficient entry system
+- Visual feedback:
+  - Highlighted selection
+  - Blinking cursor
+- Menu navigation with plot confirmation and reset options
+
+---
+
+### Exponential LUT System
+- Exponential values precomputed using Python
+- Stored in configurable LUT (.mem file)
+- Depth adjustable based on precision requirements
+- Runtime LUT loading into registers
+
+Benefits:
+- Reduced hardware complexity
+- Improved timing slack
+- Faster graph rendering
+
+---
+
+### Function Selection Module
+- Clear UI-based function switching
+- Red highlight indicator for active selection
+- Improved usability and visual clarity
+
+---
+
+## Interactive Graphing Engine
+
+### Coordinate Mapping System
+- Pixel coordinates
+- World coordinates
+- BRAM index mapping
+- Cursor tracking system
+
+Ensures consistent alignment between:
+- Mouse interaction
+- Mathematical function domain
+- Memory storage layout
+
+---
+
+### Dynamic Viewport Control
+- Mouse-driven panning and dragging
+- Multi-axis scaling support
+- Quadratic zoom-fit functionality
+
+---
+
+### Curve Rendering Pipeline
+- Dual-port BRAM for concurrent read/write
+- Span filling for smooth curve rendering
+- Shift-register alignment for pipeline delay compensation
+- Supports continuous curve output under scaling transformations
+
+---
+
+### Real-Time Tracing System
+- FSM-based DRAG / TRACE mode switching
+- Cursor constrained to curve during tracing
+- Dual-module architecture ensures:
+  - Accurate mathematical output
+  - Independent rendering consistency
+
+---
+
+### Data Scaling Strategy
+- Normalisation of input range: **-191 to 191**
+- Function-specific scaling:
+  - Trigonometric: 0.26 rad per step
+  - Quadratic: 1 unit step
+  - Exponential: 0.01 unit step
+- Unified **48-bit BRAM storage**
+  - Supports mixed Q-formats:
+    - Q48.0 (quadratic)
+    - Q40.8 (CORDIC)
+    - Q32.16 (exponential)
+
+---
+
+## Key Challenges
+
+- Clock domain and timing alignment issues
+- Pipeline latency management (CORDIC delay compensation)
+- Coordinate system consistency across modules
+- BRAM indexing accuracy during dynamic scaling
+- Resource constraints due to fixed-point design decisions
+
+---
+
+## Reflection
+
+What stood out most in this project was how quickly a “graphing calculator” becomes a **full system design problem** in hardware.
+
+Small decisions in:
+- Bit-width
+- Memory architecture
+- Timing design
+
+...had cascading effects across the entire system.
+
+---
+
+## Result
+
+A fully functional FPGA-based graphing calculator capable of:
+- Real-time function plotting
+- Interactive graph manipulation
+- Accurate coordinate tracing
+- Multi-function mathematical visualization
+
+---
+
+## Acknowledgements
+
+Chia Jia En  
+Ding Dao En  
+Nicholas Lee  
+
+---
+
+## Takeaway
+
+FPGA design is not just about implementing functionality.  
+It is about making everything work together under strict **timing, resource, and architectural constraints**.
