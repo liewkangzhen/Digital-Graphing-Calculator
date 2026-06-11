@@ -9,6 +9,11 @@ we wanted to build something more advanced than a basic calculator, while still 
 
 We decided to implement a **graphing calculator module**, inspired by tools such as Desmos, to explore how mathematical computation and real-time visualization can be realised on hardware.
 
+<br>
+<p align="center">
+  <img width="600" height="448" alt="ee2026_system" src="https://github.com/user-attachments/assets/2a3e8e84-60aa-4840-b937-8dc3672529ea" />
+</p>  
+  
 ---
 
 ## Motivation
