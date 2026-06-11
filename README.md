@@ -29,17 +29,6 @@ Since the tool is primarily visual, we prioritised **intuitive correctness over 
 
 ---
 
-## Team
-
-This was a 4-member team project:
-
-- Chia Jia En  
-- Ding Dao En  
-- Nicholas Lee  
-- Liew Kang Zhen (Me)
-
----
-
 ## Implementation Platform
 
 - **HDL Language:** Verilog  
