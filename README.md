@@ -229,13 +229,10 @@ A fully functional FPGA-based graphing calculator capable of:
 
 ## Acknowledgements
 
+This wouldnt't have been possible without the help of my wonderful teammates!
+Credits to:
 Chia Jia En  
 Ding Dao En  
 Nicholas Lee  
 
 ---
-
-## Takeaway
-
-FPGA design is not just about implementing functionality.  
-It is about making everything work together under strict **timing, resource, and architectural constraints**.
