@@ -229,8 +229,8 @@ A fully functional FPGA-based graphing calculator capable of:
 
 ## Acknowledgements
 
-This wouldnt't have been possible without the help of my wonderful teammates!
-Credits to:
+This wouldnt't have been possible without the help of my wonderful teammates!  
+Credits to:  
 Chia Jia En  
 Ding Dao En  
 Nicholas Lee  
